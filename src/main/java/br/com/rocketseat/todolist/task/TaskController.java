@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/tasks")
@@ -20,7 +20,7 @@ public class TaskController {
     @PostMapping("/")
     public ResponseEntity create(@RequestBody TaskModel taskModel, HttpServletRequest request) {
         Object idUser = request.getAttribute("idUser");
-        taskModel.setIdUser((UUID) idUser);
+        taskModel.setUserId((Long) idUser);
 
         LocalDateTime currentDate = LocalDateTime.now();
         if(currentDate.isAfter(taskModel.getStartAt()) || currentDate.isAfter(taskModel.getEndAt())) {
@@ -34,7 +34,16 @@ public class TaskController {
     @GetMapping("/")
     public List<TaskModel> listAllByIdUser(HttpServletRequest request) {
         Object idUser = request.getAttribute("idUser");
-        List<TaskModel> tasks = this.taskRepository.findByIdUser((UUID) idUser);
+        List<TaskModel> tasks = this.taskRepository.findByUserId((Long) idUser);
         return tasks;
     }
+
+    @PutMapping("/{idTask}")
+    public void update(@RequestBody TaskModel taskModel, HttpServletRequest request, @PathVariable Long idTask) {
+        Object idUser = request.getAttribute("idUser");
+        taskModel.setId(idTask);
+        this.taskRepository.save(taskModel);
+        
+    }
+
 }

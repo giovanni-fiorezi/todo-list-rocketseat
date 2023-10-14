@@ -12,8 +12,8 @@ import java.util.UUID;
 public class TaskModel {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String description;
 
@@ -29,5 +29,5 @@ public class TaskModel {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    private UUID idUser;
+    private Long userId;
 }
