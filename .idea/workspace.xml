@@ -61,6 +61,12 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean" />
+      <command value="mvn jar:jar" />
+    </option>
+  </component>
   <component name="RunManager">
     <configuration name="ToDoListApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="to-do-list" />
@@ -89,7 +95,7 @@
       <workItem from="1697224554395" duration="21000" />
       <workItem from="1697456213515" duration="120000" />
       <workItem from="1697456342930" duration="1338000" />
-      <workItem from="1697503395689" duration="4448000" />
+      <workItem from="1697503395689" duration="4811000" />
     </task>
     <servers />
   </component>
