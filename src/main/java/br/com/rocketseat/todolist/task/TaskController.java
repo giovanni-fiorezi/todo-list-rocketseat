@@ -1,5 +1,6 @@
 package br.com.rocketseat.todolist.task;
 
+import br.com.rocketseat.todolist.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,11 +40,21 @@ public class TaskController {
     }
 
     @PutMapping("/{idTask}")
-    public void update(@RequestBody TaskModel taskModel, HttpServletRequest request, @PathVariable Long idTask) {
+    public ResponseEntity update(@RequestBody TaskModel taskModel, HttpServletRequest request, @PathVariable Long idTask) {
+        TaskModel task = this.taskRepository.findById(idTask).orElse(null);
+
+        if(task == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("A tarefa não existe.");
+        }
+
         Object idUser = request.getAttribute("idUser");
-        taskModel.setId(idTask);
-        this.taskRepository.save(taskModel);
-        
+        if(!task.getUserId().equals(idUser)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário não tem permissão para alterar essa tarefa.");
+        }
+
+        Utils.copyNonNullProperties(taskModel, task);
+        TaskModel saveTask = this.taskRepository.save(taskModel);
+        return ResponseEntity.status(HttpStatus.OK).body(saveTask);
     }
 
 }
